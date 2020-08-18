@@ -1,0 +1,23 @@
+{
+  "name": "@umbrellio/ucdn",
+  "version": "0.1.0",
+  "bin": "ucdn",
+  "main": "index.js",
+  "repository": "git@github.com:umbrellio/ucdn.git",
+  "license": "MIT",
+  "author": "Aleksei Bespalov <nulldefiner@gmail.com>",
+  "homepage": "https://github.com/umbrellio/ucdn",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "aws-sdk": "^2.701.0",
+    "js-yaml": "^3.14.0",
+    "mime-types": "^2.1.27",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.3.0"
+  }
+}

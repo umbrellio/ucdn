@@ -1,0 +1,70 @@
+#!/usr/bin/env node
+
+const yargs = require("yargs")
+
+const pkg = require("./package")
+const utils = require("./utils")
+const upload = require("./upload")
+
+const toDashCase = str => str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
+
+yargs
+  .env("UCDN")
+  .command("upload", "upload assets to AWS S3", {}, upload)
+  .options({
+    config: {
+      alias: "c",
+      describe: "path to config file",
+      default: "./ucdn.yml",
+      type: "string",
+    },
+    dir: {
+      alias: "d",
+      describe: "assets directory",
+      default: "dist/",
+      type: "string",
+    },
+    bucket: {
+      alias: "b",
+      describe: "AWS bucket for upload",
+      type: "string",
+      default: null,
+    },
+    exclude: {
+      alias: "e",
+      describe: "excluded extenstions",
+      default: ["html", "gz"],
+      type: "array",
+    },
+    accessKeyId: {
+      alias: "access-key-id",
+      describe: "AWS access key ID",
+      type: "string",
+      demand: true,
+    },
+    secretAccessKey: {
+      alias: "secret-access-key",
+      describe: "AWS secret access key",
+      type: "string",
+      demand: true,
+    },
+    "config-key": {
+      alias: "C",
+      describe: "root config key",
+    }
+  })
+  .demandCommand(1)
+  .help()
+  .version(pkg.version)
+  .strict()
+  .middleware(argv => {
+    const config = utils.loadYamlFile(argv.config)
+    const configObject = argv.C ? (config[argv.C] || {}) : config
+
+    Object
+      .entries(configObject)
+      .filter(([_, value]) => value != null)
+      .forEach(([key, value]) => (argv[key] = argv[key] || value))
+
+  }, true)
+  .parse()
