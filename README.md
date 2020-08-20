@@ -27,13 +27,13 @@ $ ucdn upload -c /path/to/config/file.yaml -C production
 All following options except `config` and `config-key` can be configured using the config file.
 
 ```
---config, -c                            path to config file
---config-key, -C                        root config key
---dir, -d                               assets directory
---bucket, -b                            AWS bucket for upload
---exclude, -e                           excluded extenstions
---accessKeyId, --access-key-id          AWS access key ID
---secretAccessKey, --secret-access-key  AWS secret access key
+--config, -c                            path to config file     [default: "./ucdn.yml"]
+--config-key, -C                        root config key         [default: null]
+--dir, -d                               assets directory        [default: "dist/"]
+--bucket, -b                            AWS bucket for upload   [required]
+--exclude, -e                           excluded extenstions    [default: ["html","gz"]]
+--accessKeyId, --access-key-id          AWS access key ID       [required]
+--secretAccessKey, --secret-access-key  AWS secret access key   [required]
 ```
 
 ## Contributing
