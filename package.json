@@ -8,7 +8,7 @@
   "author": "Aleksei Bespalov <nulldefiner@gmail.com>",
   "homepage": "https://github.com/umbrellio/ucdn",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint . ucdn"
   },
   "dependencies": {
     "aws-sdk": "^2.701.0",

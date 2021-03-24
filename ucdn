@@ -8,51 +8,53 @@ const upload = require("./upload")
 
 const toDashCase = str => str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
 
+const yargsOptions = {
+  config: {
+    alias: "c",
+    describe: "path to config file",
+    default: "./ucdn.yml",
+    type: "string",
+  },
+  dir: {
+    alias: "d",
+    describe: "assets directory",
+    default: "dist/",
+    type: "string",
+  },
+  bucket: {
+    alias: "b",
+    describe: "AWS bucket for upload",
+    type: "string",
+    default: null,
+  },
+  exclude: {
+    alias: "e",
+    describe: "excluded extenstions",
+    default: ["html", "gz"],
+    type: "array",
+  },
+  accessKeyId: {
+    alias: "access-key-id",
+    describe: "AWS access key ID",
+    type: "string",
+    demand: true,
+  },
+  secretAccessKey: {
+    alias: "secret-access-key",
+    describe: "AWS secret access key",
+    type: "string",
+    demand: true,
+  },
+  "config-key": {
+    alias: "C",
+    describe: "root config key",
+  }
+}
+
 yargs
   .env("UCDN")
   .command("upload", "upload assets to AWS S3", {}, upload)
-  .options({
-    config: {
-      alias: "c",
-      describe: "path to config file",
-      default: "./ucdn.yml",
-      type: "string",
-    },
-    dir: {
-      alias: "d",
-      describe: "assets directory",
-      default: "dist/",
-      type: "string",
-    },
-    bucket: {
-      alias: "b",
-      describe: "AWS bucket for upload",
-      type: "string",
-      default: null,
-    },
-    exclude: {
-      alias: "e",
-      describe: "excluded extenstions",
-      default: ["html", "gz"],
-      type: "array",
-    },
-    accessKeyId: {
-      alias: "access-key-id",
-      describe: "AWS access key ID",
-      type: "string",
-      demand: true,
-    },
-    secretAccessKey: {
-      alias: "secret-access-key",
-      describe: "AWS secret access key",
-      type: "string",
-      demand: true,
-    },
-    "config-key": {
-      alias: "C",
-      describe: "root config key",
-    }
-  })
+  .options(yargsOptions)
   .demandCommand(1)
   .help()
   .version(pkg.version)
@@ -64,7 +66,9 @@ yargs
     Object
       .entries(configObject)
       .filter(([_, value]) => value != null)
-      .forEach(([key, value]) => (argv[key] = argv[key] || value))
+      .forEach(([key, value]) => {
+        if (argv[key] == yargsOptions[key].default) argv[key] = value
+      })
 
   }, true)
   .parse()
