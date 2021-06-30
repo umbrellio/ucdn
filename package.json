@@ -11,7 +11,7 @@
     "lint": "eslint . ucdn"
   },
   "dependencies": {
-    "aws-sdk": "2.701.0",
+    "@aws-sdk/client-s3": "^3.19.0",
     "js-yaml": "^3.14.0",
     "mime-types": "^2.1.27",
     "yargs": "^15.3.1"

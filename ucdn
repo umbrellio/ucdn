@@ -15,6 +15,12 @@ const yargsOptions = {
     default: "./ucdn.yml",
     type: "string",
   },
+  region: {
+    alias: "r",
+    describe: "AWS geographical area",
+    default: "eu-west-1",
+    type: "string",
+  },
   dir: {
     alias: "d",
     describe: "assets directory",

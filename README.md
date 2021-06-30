@@ -29,6 +29,7 @@ All following options except `config` and `config-key` can be configured using t
 ```
 --config, -c                            path to config file     [default: "./ucdn.yml"]
 --config-key, -C                        root config key         [default: null]
+--region, -r                            AWS geographical area   [default: "eu-west-1"]
 --dir, -d                               assets directory        [default: "dist/"]
 --bucket, -b                            AWS bucket for upload   [required]
 --exclude, -e                           excluded extenstions    [default: ["html","gz"]]
