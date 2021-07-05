@@ -42,7 +42,8 @@ const uploadFile = (s3, config, file, key) => new Promise((resolve, reject) => {
 
   stream.on("error", reject)
   s3.send(new PutObjectCommand(params))
-    .then(data => resolve(data), err => reject(err))
+    .then(data => resolve(data))
+    .catch(err => reject(err))
     .finally(() => stream.close())
 })
 

@@ -26,6 +26,8 @@ $ ucdn upload -c /path/to/config/file.yaml -C production
 
 All following options except `config` and `config-key` can be configured using the config file.
 
+Available AWS regions can be viewed at https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html.
+
 ```
 --config, -c                            path to config file     [default: "./ucdn.yml"]
 --config-key, -C                        root config key         [default: null]
