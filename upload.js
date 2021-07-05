@@ -1,10 +1,10 @@
 const fs = require("fs")
 const path = require("path")
 const mime = require("mime-types")
-const AWS = require("aws-sdk")
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
-const s3 = new AWS.S3()
 const configDefaults = {
+  region: null,
   dir: null,
   bucket: null,
   exclude: [],
@@ -29,7 +29,7 @@ const findFiles = directory => {
 
 const getKey = (file, root) => path.relative(root, file)
 
-const uploadFile = (config, file, key) => new Promise((resolve, reject) => {
+const uploadFile = (s3, config, file, key) => new Promise((resolve, reject) => {
   const { bucket } = config
   const stream = fs.createReadStream(file)
   const basename = path.basename(file)
@@ -41,20 +41,22 @@ const uploadFile = (config, file, key) => new Promise((resolve, reject) => {
   }
 
   stream.on("error", reject)
-  s3.upload(params, (err, data) => {
-    stream.close()
-    if (err) reject(err)
-    else resolve(data)
-  })
+  s3.send(new PutObjectCommand(params))
+    .then(data => resolve(data))
+    .catch(err => reject(err))
+    .finally(() => stream.close())
 })
 
 const upload = argv => {
   const config = getConfig(argv)
-  const { accessKeyId, secretAccessKey, dir, exclude } = config
+  const { region, accessKeyId, secretAccessKey, dir, exclude } = config
 
-  AWS.config.update({
-    accessKeyId: accessKeyId || "unknown",
-    secretAccessKey: secretAccessKey || "unknown",
+  const s3 = new S3Client({
+    region,
+    credentials: {
+      accessKeyId: accessKeyId || "unknown",
+      secretAccessKey: secretAccessKey || "unknown",
+    }
   })
 
   const directory = path.resolve(dir)
@@ -65,8 +67,8 @@ const upload = argv => {
 
   const promises = files.map(file => {
     const key = getKey(file, directory)
-    return uploadFile(config, file, key)
-      .then(data => console.log("Uploaded", data.Location))
+    return uploadFile(s3, config, file, key)
+      .then(() => console.log("Uploaded", file))
   })
 
   return Promise.all(promises)
