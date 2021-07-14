@@ -29,24 +29,6 @@ const findFiles = directory => {
 
 const getKey = (file, root) => path.relative(root, file)
 
-// const uploadFile = (s3, config, file, key) => new Promise((resolve, reject) => {
-//   const { bucket } = config
-//   const stream = fs.createReadStream(file)
-//   const basename = path.basename(file)
-//   const params = {
-//     Bucket: bucket,
-//     Body: stream,
-//     Key: key,
-//     ContentType: mime.contentType(basename),
-//   }
-//
-//   stream.on("error", reject)
-//   s3.send(new PutObjectCommand(params))
-//     .then(data => resolve(data))
-//     .catch(err => reject(err))
-//     .finally(() => stream.close())
-// })
-
 const uploadFile = (s3, config, file, key) => {
   return fs.promises.readFile(file).then(data => {
     const { bucket } = config
@@ -78,7 +60,7 @@ const upload = argv => {
   const promises = files.map(file => {
     const key = getKey(file, directory)
     return uploadFile(s3, config, file, key)
-      .then(res => console.log("Uploaded", file, JSON.stringify(res)))
+      .then(() => console.log("Uploaded", file))
   })
 
   return Promise.all(promises)
