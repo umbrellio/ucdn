@@ -1,7 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const mime = require("mime-types")
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3")
 
 const configDefaults = {
   region: null,
@@ -48,7 +48,7 @@ const upload = argv => {
     credentials: {
       accessKeyId: accessKeyId || "unknown",
       secretAccessKey: secretAccessKey || "unknown",
-    }
+    },
   })
 
   const directory = path.resolve(dir)
@@ -66,7 +66,7 @@ const upload = argv => {
   return Promise.all(promises)
     .then(() => {
       console.log("Completed")
-      process.exit(0)
+      return process.exit(0)
     })
     .catch(error => {
       console.error(error)
