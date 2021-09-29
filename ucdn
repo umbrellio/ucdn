@@ -54,7 +54,13 @@ const yargsOptions = {
   "config-key": {
     alias: "C",
     describe: "root config key",
-  }
+  },
+  targetDir: {
+    alias: "target-dir",
+    describe: "AWS bucket target directory",
+    type: "string",
+    default: "/",
+  },
 }
 
 yargs

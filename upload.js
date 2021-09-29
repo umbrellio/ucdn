@@ -10,6 +10,7 @@ const configDefaults = {
   exclude: [],
   accessKeyId: null,
   secretAccessKey: null,
+  targetDir: null,
 }
 
 const getConfig = passedConfig => {
@@ -27,7 +28,10 @@ const findFiles = directory => {
   }, [])
 }
 
-const getKey = (file, root) => path.relative(root, file)
+const getKey = (file, root, targetDir) => {
+  const filepath = path.relative(root, file)
+  return path.join(targetDir, filepath)
+}
 
 const uploadFile = (s3, config, file, key) => {
   return fs.promises.readFile(file).then(data => {
@@ -41,7 +45,7 @@ const uploadFile = (s3, config, file, key) => {
 
 const upload = argv => {
   const config = getConfig(argv)
-  const { region, accessKeyId, secretAccessKey, dir, exclude } = config
+  const { region, accessKeyId, secretAccessKey, dir, exclude, targetDir } = config
 
   const s3 = new S3Client({
     region,
@@ -58,7 +62,7 @@ const upload = argv => {
   })
 
   const promises = files.map(file => {
-    const key = getKey(file, directory)
+    const key = getKey(file, directory, targetDir)
     return uploadFile(s3, config, file, key)
       .then(() => console.log("Uploaded", file))
   })
