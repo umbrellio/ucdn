@@ -29,14 +29,15 @@ All following options except `config` and `config-key` can be configured using t
 Available AWS regions can be viewed at https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html.
 
 ```
---config, -c                            path to config file     [default: "./ucdn.yml"]
---config-key, -C                        root config key         [default: null]
---region, -r                            AWS geographical area   [default: "eu-west-1"]
---dir, -d                               assets directory        [default: "dist/"]
---bucket, -b                            AWS bucket for upload   [required]
---exclude, -e                           excluded extenstions    [default: ["html","gz"]]
---accessKeyId, --access-key-id          AWS access key ID       [required]
---secretAccessKey, --secret-access-key  AWS secret access key   [required]
+--config, -c                            path to config file           [default: "./ucdn.yml"]
+--config-key, -C                        root config key               [default: null]
+--region, -r                            AWS geographical area         [default: "eu-west-1"]
+--dir, -d                               assets directory              [default: "dist/"]
+--bucket, -b                            AWS bucket for upload         [required]
+--exclude, -e                           excluded extenstions          [default: ["html","gz"]]
+--accessKeyId, --access-key-id          AWS access key ID             [required]
+--secretAccessKey, --secret-access-key  AWS secret access key         [required]
+--targetDir, --target-dir               AWS bucket target directory   [default: "/"]
 ```
 
 ## Contributing
