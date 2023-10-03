@@ -37,7 +37,7 @@ Available AWS regions can be viewed at https://docs.aws.amazon.com/sns/latest/dg
 --exclude, -e                           excluded extenstions          [default: ["html","gz"]]
 --accessKeyId, --access-key-id          AWS access key ID             [required]
 --secretAccessKey, --secret-access-key  AWS secret access key         [required]
---targetDir, --target-dir               AWS bucket target directory   [default: "/"]
+--targetDir, --target-dir               AWS bucket target directory   [default: ""]
 ```
 
 ## Contributing
