@@ -1,5 +1,5 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "env": {
     "node": true,
     "es6": true
@@ -8,6 +8,9 @@
     "umbrellio",
     "plugin:promise/recommended"
   ],
+  "parserOptions": {
+    "requireConfigFile": false
+  },
   "rules": {
     "quotes": ["error", "double"],
     "no-console": "off"

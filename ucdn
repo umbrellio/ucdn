@@ -6,8 +6,6 @@ const pkg = require("./package")
 const utils = require("./utils")
 const upload = require("./upload")
 
-const toDashCase = str => str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
-
 const yargsOptions = {
   config: {
     alias: "c",
@@ -59,7 +57,7 @@ const yargsOptions = {
     alias: "target-dir",
     describe: "AWS bucket target directory",
     type: "string",
-    default: "/",
+    default: "",
   },
 }
 
@@ -77,10 +75,10 @@ yargs
 
     Object
       .entries(configObject)
-      .filter(([_, value]) => value != null)
+      .filter(([_, value]) => value !== null)
       .forEach(([key, value]) => {
-        if (argv[key] == yargsOptions[key].default) argv[key] = value
+        // eslint-disable-next-line no-param-reassign
+        if (argv[key] === yargsOptions[key].default) argv[key] = value
       })
-
   }, true)
   .parse()
