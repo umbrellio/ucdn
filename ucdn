@@ -59,6 +59,12 @@ const yargsOptions = {
     type: "string",
     default: "",
   },
+  concurrencyLimit: {
+    alias: "processes",
+    describe: "Limit of concurrent upload processes",
+    type: "integer",
+    default: 100,
+  },
 }
 
 yargs
