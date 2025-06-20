@@ -24,7 +24,7 @@ $ ucdn upload -c /path/to/config/file.yaml -C production
 
 ## Options
 
-All following options except `config`, `config-key` and `concurrencyLimit` can be configured using the config file.
+All following options except `config` and `config-key` can be configured using the config file.
 
 Available AWS regions can be viewed at https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html.
 
