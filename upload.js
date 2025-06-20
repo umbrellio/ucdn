@@ -2,6 +2,7 @@ const fs = require("fs")
 const path = require("path")
 const mime = require("mime-types")
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3")
+const pLimit = require("p-limit")
 
 const configDefaults = {
   region: null,
@@ -11,6 +12,7 @@ const configDefaults = {
   accessKeyId: null,
   secretAccessKey: null,
   targetDir: null,
+  concurrencyLimit: 100,
 }
 
 const getConfig = passedConfig => {
@@ -61,10 +63,12 @@ const upload = argv => {
     return !exclude.includes(ext)
   })
 
+  const limit = pLimit(config.concurrencyLimit);
+
   const promises = files.map(file => {
     const key = getKey(file, directory, targetDir)
-    return uploadFile(s3, config, file, key)
-      .then(() => console.log("Uploaded", file))
+    return limit(uploadFile(s3, config, file, key)
+      .then(() => console.log("Uploaded", file)))
   })
 
   return Promise.all(promises)
